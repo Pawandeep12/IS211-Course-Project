@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book</title>
+</head>
+<body>
+    <h1>Add Book to Your Collection</h1>
+    <form action="/add_book" method="POST">
+        <input type="hidden" name="title" value="{{ title }}">
+        <input type="hidden" name="author" value="{{ author }}">
+        <input type="hidden" name="page_count" value="{{ page_count }}">
+        <input type="hidden" name="average_rating" value="{{ average_rating }}">
+        <input type="hidden" name="thumbnail_url" value="{{ thumbnail }}">
+
+        <p><strong>Title:</strong> {{ title }}</p>
+        <p><strong>Author:</strong> {{ author }}</p>
+        <p><strong>Page Count:</strong> {{ page_count }}</p>
+        <p><strong>Average Rating:</strong> {{ average_rating }}</p>
+        <img src="{{ thumbnail }}" alt="Thumbnail">
+        <button type="submit">Add to Collection</button>
+    </form>
+</body>
+</html>
