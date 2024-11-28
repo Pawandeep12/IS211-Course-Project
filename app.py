@@ -8,7 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///books.db'
 app.config['SECRET_KEY'] = os.urandom(24)
 db = SQLAlchemy(app)
 
-# Define Book model
+
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
@@ -18,13 +18,13 @@ class Book(db.Model):
     thumbnail_url = db.Column(db.String(255))
     user_id = db.Column(db.Integer, nullable=False)
 
-# Define User model (Extra Credit)
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
 
-# Route to search for books by ISBN
+
 @app.route('/search', methods=['GET', 'POST'])
 def search_book():
     if request.method == 'POST':
@@ -48,7 +48,7 @@ def search_book():
             flash("No results found for this ISBN.", 'error')
     return render_template('search_book.html')
 
-# Route to add book to user's list
+
 @app.route('/add_book', methods=['POST'])
 def add_book():
     title = request.form['title']
@@ -56,7 +56,7 @@ def add_book():
     page_count = request.form['page_count']
     average_rating = request.form['average_rating']
     thumbnail_url = request.form['thumbnail_url']
-    user_id = 1  # Assume a logged-in user with ID 1 for now
+    user_id = 1  
     
     new_book = Book(title=title, author=author, page_count=page_count, 
                     average_rating=average_rating, thumbnail_url=thumbnail_url, 
@@ -67,14 +67,14 @@ def add_book():
     flash("Book added successfully!", 'success')
     return redirect(url_for('view_books'))
 
-# Route to view books
+
 @app.route('/books')
 def view_books():
-    user_id = 1  # Assume a logged-in user with ID 1 for now
+    user_id = 1  
     books = Book.query.filter_by(user_id=user_id).all()
     return render_template('view_books.html', books=books)
 
-# Route to delete a book
+
 @app.route('/delete_book/<int:book_id>', methods=['GET', 'POST'])
 def delete_book(book_id):
     book = Book.query.get_or_404(book_id)
@@ -84,5 +84,6 @@ def delete_book(book_id):
     return redirect(url_for('view_books'))
 
 if __name__ == '__main__':
-    db.create_all()  # Create the database tables
+    with app.app_context():
+        db.create_all() 
     app.run(debug=True)
