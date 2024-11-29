@@ -70,7 +70,12 @@ def add_book():
     average_rating = request.form['average_rating']
     thumbnail_url = request.form['thumbnail_url']
     user_id = 1  
-    
+
+    try:
+        average_rating = float(average_rating)
+    except ValueError:
+        average_rating = 0.0
+
     new_book = Book(title=title, author=author, page_count=page_count, 
                     average_rating=average_rating, thumbnail_url=thumbnail_url, 
                     user_id=user_id)
