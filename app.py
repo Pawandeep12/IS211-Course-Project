@@ -43,15 +43,23 @@ def search_book():
             title = book_info.get('title', 'No title available')
             author = ', '.join(book_info.get('authors', ['Unknown']))
             page_count = book_info.get('pageCount', 'N/A')
-            average_rating = book_info.get('averageRating', 'N/A')
-            thumbnail = book_info.get('imageLinks', {}).get('thumbnail', '')
             
+            
+            average_rating = book_info.get('averageRating')
+            try:
+                average_rating = float(average_rating) if average_rating else 0.0
+            except ValueError:
+                average_rating = 0.0
+
+            thumbnail = book_info.get('imageLinks', {}).get('thumbnail', '')
+
             return render_template('add_book.html', title=title, author=author, 
                                    page_count=page_count, average_rating=average_rating, 
                                    thumbnail=thumbnail)
         else:
             flash("No results found for this ISBN.", 'error')
     return render_template('search_book.html')
+
 
 
 @app.route('/add_book', methods=['POST'])
