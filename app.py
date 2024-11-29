@@ -25,6 +25,11 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
 
 
+@app.route('/')
+def home():
+    """Homepage that displays navigation options."""
+    return render_template('index.html')
+
 @app.route('/search', methods=['GET', 'POST'])
 def search_book():
     if request.method == 'POST':
